@@ -11,11 +11,13 @@ These findings demonstrate that models specifically trained for acute SCI can su
 
 ## Methods & Implementation:
 ### Dataset:
-The dataset consists of 31 patients 25 male, 6 female, mean age:39 ± 15.4 years) with acute spinal cord injury, each with T2-weighted MRI scans and expert-annotated ground truth masks for hyperintense regions. Images were acquired approximately 1.1 ± 0.66 days post-injury. All images are 1.5 Tesla cervical spine T2-weighted MRIs. Hyperintensities were manually segmented on axial slices by a trained annotator, serving as ground truth.
+The dataset consists of 31 patients 25 male, 6 female, mean age:39 ± 15.4 years) with acute spinal cord injury, each with T2-weighted MRI scans and expert-annotated ground truth masks for hyperintense regions. Images were acquired approximately 1.1 ± 0.66 days post-injury. All images are 1.5 Tesla cervical spine T2-weighted MRIs. Hyperintensities were manually segmented on axial slices by a trained annotator, serving as ground truth. Please note that none of the images or derived images (eg.masks) are in the folder in order to preserve patient's privacy as well as honoring data share agreements with UBC and Vancouver Coastal Health. We are happy to show these if requested. Sample images between segmentation mask and ground truth can be found under Figures. 
 
 ### Model implementations:
-Preprocessing steps followed the nnUNet pipeline. Here we will outline the calls on the command line to run the training and referencing of both the nnUNet and SCT models.
+Preprocessing steps followed the nnUNet pipeline (see: https://github.com/mic-dkfz/nnunet). Here we will outline the calls on the command line to run the training and referencing of both the nnUNet and SCT models.
+
 ### nnU-Net:
+
 1. Install nnU-Net and set up the environment. Make sure we also have python installed. 
 ```bash
 pip install nnunet
