@@ -5,17 +5,11 @@ Team Members: Oscar Ortiz and Saad Ali
 
 ## 2.  Abstract:
 Acute spinal cord injury (SCI) is a severe neurological condition where early assessment of tissue damage is critical for guiding clinical intervention. On T2-weighted MRI, acute injury often presents as hyperintense regions corresponding to edema. However, manual segmentation of these regions is time-consuming and subject to variability, while existing automated tools are not optimized for acute injury cases.
-
 In this project, we develop a deep learning-based segmentation model using nnU-Net to automatically identify spinal cord hyperintensities in acute SCI. We evaluate its performance against the Spinal Cord Toolbox (SCT), a widely used baseline for spinal cord segmentation. The dataset consists of 31 patients with acute SCI, with expert-annotated ground truth masks.
-
 Our results show that nnU-Net significantly outperforms SCT across key metrics, achieving a Dice score of 0.7317 compared to 0.4863 for SCT, along with substantial improvements in recall and boundary accuracy. While both models demonstrate similar precision, SCT tends to under-segment lesion extent.
-
 These findings demonstrate that models specifically trained for acute SCI can substantially improve segmentation accuracy. This approach has the potential to support faster and more reliable clinical decision-making in acute care settings.
 
-## 3.  Background & Motivation:
-TODO: Explain the medical relevance of the problem you’re addressing. Summarize relevant literature or prior work your project builds on
-
-## 4. Methods & Implementation:
+## Methods & Implementation:
 ### Dataset:
 The dataset consists of 31 patients 25 male, 6 female, mean age:39 ± 15.4 years) with acute spinal cord injury, each with T2-weighted MRI scans and expert-annotated ground truth masks for hyperintense regions. Images were acquired approximately 1.1 ± 0.66 days post-injury. All images are 1.5 Tesla cervical spine T2-weighted MRIs. Hyperintensities were manually segmented on axial slices by a trained annotator, serving as ground truth.
 
@@ -55,12 +49,30 @@ It uses all 5 folds to generate predictions and averages them for the final outp
 ```bash
 nnUNetv2_apply_postprocessing -i /path/to/predictions -o /path/to/postprocessed/predictions -t SCIEMG -m 3d_fullres
 ```
-### Spinal Cord Toolbox (SCT):
+### Spinal Cord Toolbox (SCT) (https://spinalcordtoolbox.com/stable/):
 1. Install SCT and set up the environment. Make sure we also have python installed.
 ```bash
 pip install spinalcordtoolbox
 ```
-TODO: Describe the steps to run SCT. still need to find the commands ands scripts I used for this.
+There is a detailed tutorial here: (https://spinalcordtoolbox.com/stable/user_section/tutorials/lesion-analysis/lesion-segmentation-sci.html) but for brevity here are the important commands.
+
+2. Main command:
+
+```bash
+sct_deepseg lesion_sci_t2 -i t2.nii.gz -qc qc
+```
+
+##### What this does
+- `lesion_sci_t2` selects the SCI lesion model
+- `-i t2.nii.gz` provides the input T2w image
+- `-qc qc` writes slice-by-slice quality-control output into a folder called `qc`
+
+#### Expected outputs
+```text
+t2_sc_seg.nii.gz
+t2_lesion_seg.nii.gz
+t2_lesion_seg.json
+```
 
 ### Evaluation Metrics:
 We evaluated the performance of both models using the following metrics:
@@ -76,17 +88,3 @@ To assess factors that affected model performance, we also analyzed the relation
 The implementation of this analysis can be found in the Code folder under the script called: evaluating_performance.ipynb.
 
 
-## 5. Results & Evaluation: 
-TODO: Present final results with proper metrics (e.g., accuracy, AUC, F1-score). Include relevant plots or visualizations (e.g., confusion matrix, ROC curves). Interpret the results and highlight key findings
-
-## 6.  Discussion & Interpretation
-TODO: Reflect on the meaning of your results in a medical context. Discuss limitations, potential biases, and implications for future work
-
-## 7.  Challenges & Lessons Learned
-TODO: Describe technical or logistical difficulties faced. Explain how you addressed them. Share any lessons learned throughout the project
-
-## 8. Team Member Contributions
-TODO:Clearly state each member’s contributions (e.g., modeling, data preprocessing, analysis, writing). Write this as a short paragraph at the end of the report
-
-## 9. References
-TODO: Include all relevant citations for papers, datasets, and tools used.
